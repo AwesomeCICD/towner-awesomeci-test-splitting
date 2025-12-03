@@ -1,8 +1,7 @@
 name: react-unit-tests
 discover: vitest list --filesOnly
 run: |
-  vitest run --reporter=junit --outputFile="<< outputs.junit >>" --bail 0 << test.atoms >>
-outputs:
+  yarn --silent test --listTestsoutputs:
   junit: react/junit/junit.xml
 options:
   dynamic-test-splitting: true
