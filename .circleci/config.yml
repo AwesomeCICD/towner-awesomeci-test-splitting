@@ -31,13 +31,6 @@ jobs:
       - run:
           name: Enable Corepack for Yarn 4
           command: corepack enable
-      - run:
-          name: Install plugin
-          command: |
-             sha256sum -c <(echo "f189936b32bae5cde22a7522dc58bd4e988c1384f690801c4cc88dfebf90319c  ./circleci-testsuite.gz")
-             gunzip circleci-testsuite.gz
-             chmod u+x circleci-testsuite
-             mv circleci-testsuite "${HOME}/bin/"
       - restore_cache:
           keys:
             - v1-yarn4-deps-{{ checksum "react/.yarnrc.yml" }}-{{ checksum "react/yarn.lock" }}
