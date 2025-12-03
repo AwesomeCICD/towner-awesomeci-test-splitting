@@ -1,10 +1,20 @@
-name: react-unit-tests
-discover: |
-  find test/ -type f -name '*_test.ts'
-run: |
-  vitest run --reporter=junit --outputFile="<< outputs.junit >>" --bail 0 << test.atoms >>
+
+name: ci tests
+discover: yarn --silent test --listTests
+run: JEST_JUNIT_OUTPUT_FILE="<< outputs.junit >>" yarn test --runInBand --reporters=jest-junit --bail << test.atoms >>
+analysis: |
+  yarn test --runInBand \
+            --coverage \
+            --coverageProvider=v8 \
+            --coverageReporters=lcovonly \
+            --coverage-directory="$(dirname << outputs.lcov >>)" \
+            --bail \
+            << test.atoms >> \
+            && cat "$(dirname << outputs.lcov >>)"/*.info > << outputs.lcov >>
 outputs:
-  junit: react/junit/junit.xml
+  junit: test-reports/tests.xml
 options:
-  dynamic-test-splitting: true
-  test-impact-analysis: false
+  # Enable test impact analysis.
+  test-impact-analysis: true
+  # Limit analysis to about 1 minute, in order to confirm the command is working correctly
+  test-analysis-duration: 1
