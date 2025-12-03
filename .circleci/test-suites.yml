@@ -1,6 +1,5 @@
 name: react-unit-tests
-discover: |
-  find test/ -type f -name '*_test.ts'
+discover: vitest list --filesOnly
 run: |
   vitest run --reporter=junit --outputFile="<< outputs.junit >>" --bail 0 << test.atoms >>
 outputs:
