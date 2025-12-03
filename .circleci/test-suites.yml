@@ -1,0 +1,12 @@
+name: react-unit-tests
+discover: |
+  cd react && find src/__tests__ -name "*.test.js" -type f | sort
+run: |
+  cd react
+  mkdir -p junit
+  JEST_JUNIT_OUTPUT_DIR=junit JEST_JUNIT_OUTPUT_NAME="junit-${CIRCLE_NODE_INDEX:-0}.xml" yarn test --ci --runTestsByPath --passWithNoTests << test.atoms >>
+outputs:
+  junit: react/junit/junit.xml
+options:
+  dynamic-test-splitting: true
+  test-impact-analysis: false
