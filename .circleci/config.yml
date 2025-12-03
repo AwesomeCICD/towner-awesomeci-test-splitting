@@ -25,12 +25,19 @@ executors:
 jobs:
   smarter-testing-dynamic-split: 
     executor: smarter-testing-node
-    parallelism: 60
+    parallelism: 3
     steps:
       - checkout
       - run:
           name: Enable Corepack for Yarn 4
           command: corepack enable
+      - run:
+          name: Install plugin
+          command: |
+             sha256sum -c <(echo "f189936b32bae5cde22a7522dc58bd4e988c1384f690801c4cc88dfebf90319c  ./circleci-testsuite.gz")
+             gunzip circleci-testsuite.gz
+             chmod u+x circleci-testsuite
+             mv circleci-testsuite "${HOME}/bin/"
       - restore_cache:
           keys:
             - v1-yarn4-deps-{{ checksum "react/.yarnrc.yml" }}-{{ checksum "react/yarn.lock" }}
@@ -45,7 +52,7 @@ jobs:
       - run:
           name: Run tets with Smarter Testing Dynamic Splitting
           command: |
-            circleci run testsuite "react-unit-tests"
+            circleci run testsuite "ci tests" --local --test-selection=none --test-analysis=impacted
       - store_test_results:
           path: react/junit
       - store_artifacts:
