@@ -54,7 +54,7 @@ jobs:
 # Traditional static splitting for comparison (same parallelism)
   traditional-static-split:
     executor: smarter-testing-node
-    parallelism: 60
+    parallelism: 3
     steps:
       - checkout
       - run:
@@ -89,5 +89,5 @@ workflows:
     jobs:
       - smarter-testing-dynamic-split:
           name: "smarter-testing-60x-dynamic"
-      - traditional-static-split:
-          name: "traditional-60x-static"
+      #- traditional-static-split:
+      #   name: "traditional-60x-static"
