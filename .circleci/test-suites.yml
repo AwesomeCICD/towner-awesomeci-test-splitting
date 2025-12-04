@@ -1,6 +1,10 @@
 name: react-unit-tests
-discover: yarn --silent test --listTests
-run: JEST_JUNIT_OUTPUT_FILE="<< outputs.junit >>" yarn test --runInBand --reporters=jest-junit --bail << test.atoms >>
+discover: |
+  cd react && find src/__tests__ -name "*.test.js" -type f | sort
+run: |
+  cd react
+  mkdir -p junit
+  JEST_JUNIT_OUTPUT_DIR=junit JEST_JUNIT_OUTPUT_NAME="junit-${CIRCLE_NODE_INDEX:-0}.xml" yarn test --ci --runTestsByPath --passWithNoTests << test.atoms >>
 outputs:
   junit: react/junit/junit.xml
 options:
