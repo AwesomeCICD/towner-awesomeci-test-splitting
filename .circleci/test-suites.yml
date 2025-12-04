@@ -4,7 +4,7 @@ discover: |
 run: |
   cd react
   mkdir -p junit
-  JEST_JUNIT_OUTPUT_DIR=junit JEST_JUNIT_OUTPUT_NAME="junit-${CIRCLE_NODE_INDEX:-0}.xml" yarn test --ci --runTestsByPath --passWithNoTests << test.atoms >>
+  JEST_JUNIT_OUTPUT_FILE="<< outputs.junit >>" yarn test --ci --runTestsByPath --reporters=jest-junit --passWithNoTests << test.atoms >>
 outputs:
   junit: react/junit/junit.xml
 options:
