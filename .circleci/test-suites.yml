@@ -10,3 +10,5 @@ outputs:
 options:
   dynamic-test-splitting: true
   test-impact-analysis: false
+  timeout: 20
+  
