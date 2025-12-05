@@ -4,7 +4,7 @@ discover: |
 run: |
   cd react
   mkdir -p junit
-  JEST_JUNIT_OUTPUT_DIR="$(dirname '<< outputs.junit >>')" JEST_JUNIT_OUTPUT_NAME="$(basename '<< outputs.junit >>')" yarn test --ci --runTestsByPath --passWithNoTests << test.atoms >>
+  JEST_JUNIT_OUTPUT_DIR="junit" JEST_JUNIT_OUTPUT_NAME="$(basename '<< outputs.junit >>')" yarn test --ci --runTestsByPath --passWithNoTests << test.atoms >>
 outputs:
   junit: react/junit/junit.xml
 options:
