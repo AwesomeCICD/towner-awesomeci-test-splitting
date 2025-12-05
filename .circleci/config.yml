@@ -19,7 +19,7 @@ executors:
       CI: "true"
       NODE_OPTIONS: "--no-deprecation"
       TEST_DELAY_MS: "50"
-      # Remove these two lines - Smarter testing handles junit output
+      # Remove these two lines - Smarter testing handles junit output 
       #JEST_JUNIT_OUTPUT_DIR: junit
       #JEST_JUNIT_OUTPUT_NAME: junit-${CIRCLE_NODE_INDEX}.xml
 
