@@ -52,7 +52,7 @@ jobs:
       - store_artifacts:
            path: react/junit 
 
-# Traditional static splitting for comparison (same parallelism)
+# Traditional static splitting for comparison (same parallelism) 
   traditional-static-split:
     executor: smarter-testing-node
     parallelism: 10
