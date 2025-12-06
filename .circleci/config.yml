@@ -21,7 +21,7 @@ executors:
       TEST_DELAY_MS: "50"
       # Remove these two lines - Smarter testing handles junit output 
       #JEST_JUNIT_OUTPUT_DIR: junit
-      #JEST_JUNIT_OUTPUT_NAME: junit-${CIRCLE_NODE_INDEX}.xml 
+      #JEST_JUNIT_OUTPUT_NAME: junit-${CIRCLE_NODE_INDEX}.xml  
 
 jobs:
   smarter-testing-dynamic-split: 
