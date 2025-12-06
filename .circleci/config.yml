@@ -86,7 +86,7 @@ jobs:
 
           
 workflows:
-  smarter-testing-comparison:
+  smarter-testing-fresh:
     jobs:
       - smarter-testing-dynamic-split:
           name: "smarter-testing-60x-dynamic"
