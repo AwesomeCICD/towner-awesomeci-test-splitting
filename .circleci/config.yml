@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Run tets with Smarter Testing Dynamic Splitting
           command: |
-            circleci run testsuite "react-unit-tests"
+            circleci run testsuite "react-unit-tests-v2"
       - store_test_results:
           path: react/junit
       - store_artifacts:

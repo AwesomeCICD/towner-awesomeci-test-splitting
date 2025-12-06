@@ -1,4 +1,4 @@
-name: react-unit-tests
+name: react-unit-tests-v2
 discover: |
   cd react && find src/__tests__ -name "*.test.js" -type f | sort
 run: |
