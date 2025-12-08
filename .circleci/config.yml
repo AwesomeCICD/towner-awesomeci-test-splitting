@@ -19,16 +19,23 @@ executors:
       CI: "true"
       NODE_OPTIONS: "--no-deprecation"
       TEST_DELAY_MS: "50"
-      # Remove these two lines - Smarter testing handles junit output 
-      #JEST_JUNIT_OUTPUT_DIR: junit
-      #JEST_JUNIT_OUTPUT_NAME: junit-${CIRCLE_NODE_INDEX}.xml   
+      
+      JEST_JUNIT_OUTPUT_DIR: junit
+      JEST_JUNIT_OUTPUT_NAME: junit-${CIRCLE_NODE_INDEX}.xml   
 
 jobs:
   smarter-testing-dynamic-split: 
     executor: smarter-testing-node
-    parallelism: 20
+    parallelism: 2
     steps:
       - checkout
+      - run:
+          name: Debug env vars before testsuite 
+          command: |
+            echo "=== Environment variables from executor ==="
+            echo "JEST_JUNIT_OUTPUT_DIR: $JEST_JUNIT_OUTPUT_DIR"
+            echo "JEST_JUNIT_OUTPUT_NAME: $JEST_JUNIT_OUTPUT_NAME"
+            echo "CIRCLE_NODE_INDEX: $CIRCLE_NODE_INDEX"
       - run:
           name: Enable Corepack for Yarn 4
           command: corepack enable
@@ -52,43 +59,9 @@ jobs:
       - store_artifacts:
            path: react/junit 
 
-# Traditional static splitting for comparison (same parallelism)   
-  traditional-static-split:
-    executor: smarter-testing-node
-    parallelism: 20
-    steps:
-      - checkout
-      - run:
-          name: Enable Corepack for Yarn 4
-          command: corepack enable
-      - restore_cache:
-          keys:
-            - v1-yarn4-deps-{{ checksum "react/.yarnrc.yml" }}-{{ checksum "react/yarn.lock" }}
-            - v1-yarn4-deps-
-      - run:
-          name: Install dependencies with Yarn 4
-          command: cd react && yarn install --immutable
-      - save_cache:
-          key: v1-yarn4-deps-{{ checksum "react/.yarnrc.yml" }}-{{ checksum "react/yarn.lock" }}
-          paths:
-            - react/node_modules
-      - run:
-          name: Run tests with Traditional Static Splitting
-          command: |
-            cd react
-            mkdir -p junit
-            TEST_FILES=$(circleci tests glob "src/__tests__/*.test.js" | circleci tests split --split-by=timings)
-            JEST_JUNIT_OUTPUT_DIR=junit JEST_JUNIT_OUTPUT_NAME="junit-${CIRCLE_NODE_INDEX}.xml" yarn test --ci --runTestsByPath --passWithNoTests $TEST_FILES
-      - store_test_results:
-          path: react/junit
-      - store_artifacts:
-          path: react/junit
-
-          
 workflows:
-  smarter-testing-fresh-final:
+  test-env-precedence:
     jobs:
       - smarter-testing-dynamic-split:
           name: "smarter-testing-60x-dynamic"
-      - traditional-static-split:
-          name: "traditional-60x-static"
+        
